@@ -1,0 +1,33 @@
+.react-tabs__tab--selected {
+    background: #fff;
+    border-color: #ebebeb !important;
+    color: black;
+    border-radius: 5px 5px 0 0;
+}
+.slick-prev, .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    /* color: #f31111; */
+    border: none;
+    outline: none;
+    background: #b0b0b000 !important;
+}
+.slick-prev {
+    left: -39px !important;
+}
+.slick-next {
+    right: -39px !important;
+}
+.slick-prev:before, .slick-next:before {
+    color: #f56060 !important;
+    font-size: 29px !important;
+
+}
