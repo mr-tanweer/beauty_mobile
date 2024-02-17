@@ -1,7 +1,7 @@
 
 
 section#entry-page {
-    margin-top: 130px;
+    margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr minmax(200px, 400px) 1fr;
   grid-template-rows: 1fr minmax(auto, 1fr) 1fr;

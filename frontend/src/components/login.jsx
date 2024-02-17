@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
+
 const EntryPage = () => {
   const [currentView, setCurrentView] = useState("signUp");
   const [username, setUsername] = useState("");
@@ -13,6 +14,8 @@ const EntryPage = () => {
     setCurrentView(view);
   };
 
+
+
   const handleRegister = async () => {
     try {
       const response = await axios.post('http://localhost:4000/register', { username, email, password });
@@ -22,6 +25,19 @@ const EntryPage = () => {
     } catch (error) {
       console.error('Error registering user', error);
       setErrorMessage('Error registering user');
+      setSuccessMessage('');
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/login', { username, password });
+      console.log('User logged in successfully', response.data);
+      // Redirect or perform any action after successful login
+     
+    } catch (error) {
+      console.error('Error logging in', error);
+      setErrorMessage('Error logging in');
       setSuccessMessage('');
     }
   };
@@ -57,52 +73,24 @@ const EntryPage = () => {
         );
       case "logIn":
         return (
-          <form>
+          <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
             <h2>Welcome Back!</h2>
             <fieldset>
               <legend>Log In</legend>
               <ul>
                 <li>
                   <label htmlFor="username">Username:</label>
-                  <input type="text" id="username" required />
+                  <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
                 </li>
                 <li>
                   <label htmlFor="password">Password:</label>
-                  <input type="password" id="password" required />
-                </li>
-                <li>
-                  <i />
-                  <a onClick={() => changeView("PWReset")} href="#">
-                    Forgot Password?
-                  </a>
+                  <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </li>
               </ul>
             </fieldset>
-            <button>Login</button>
+            <button type="submit">Login</button>
             <button type="button" onClick={() => changeView("signUp")}>
               Create an Account
-            </button>
-          </form>
-        );
-      case "PWReset":
-        return (
-          <form>
-            <h2>Reset Password</h2>
-            <fieldset>
-              <legend>Password Reset</legend>
-              <ul>
-                <li>
-                  <em>A reset link will be sent to your inbox!</em>
-                </li>
-                <li>
-                  <label htmlFor="email">Email:</label>
-                  <input type="email" id="email" required />
-                </li>
-              </ul>
-            </fieldset>
-            <button>Send Reset Link</button>
-            <button type="button" onClick={() => changeView("logIn")}>
-              Go Back
             </button>
           </form>
         );
