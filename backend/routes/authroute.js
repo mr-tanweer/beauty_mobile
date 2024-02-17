@@ -34,18 +34,23 @@ router.post('/register',async (req, res) => {
 }
 );
 
-router.get("/", (req, res) => {
-  res.send("hello");
-});
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-    successFlash: "Login successful!",
-  })
-);
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ message: 'Login failed' });
+    }
+
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json({ message: 'Login successful', user: req.user });
+    });
+  })(req, res, next);
+});
 
 module.exports = router;

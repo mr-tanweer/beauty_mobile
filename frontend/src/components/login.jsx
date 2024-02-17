@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios';
-
+import {useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { loginStart, loginSuccess,loginFailure } from '../redux/slices/authslices';
 
 const EntryPage = () => {
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize history
   const [currentView, setCurrentView] = useState("signUp");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -26,21 +31,25 @@ const EntryPage = () => {
       console.error('Error registering user', error);
       setErrorMessage('Error registering user');
       setSuccessMessage('');
+      dispatch(loginFailure(error.message));
     }
   };
 
   const handleLogin = async () => {
+    dispatch(loginStart());
     try {
       const response = await axios.post('http://localhost:4000/login', { username, password });
-      console.log('User logged in successfully', response.data);
+      console.log('User logged in bhjbi', response.data);
+      dispatch(loginSuccess(response.data));
       // Redirect or perform any action after successful login
-     
+      navigate('/');
     } catch (error) {
       console.error('Error logging in', error);
       setErrorMessage('Error logging in');
       setSuccessMessage('');
     }
   };
+  
 
   const renderView = () => {
     switch (currentView) {

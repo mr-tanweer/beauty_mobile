@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 function Header() {
+
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const user = useSelector(state => state.auth.user);
+   
+
     return (
         <>
             <header className="header trans_300">
@@ -81,7 +87,9 @@ function Header() {
                         <li><a href="#">blog</a></li>
                         <li>
                         <Link to="/contact">contact</Link>
+
                         </li>
+                        {isLoggedIn ? <p>Welcome, {user.username}!</p> : <p>Please log in.</p>}
                     </ul>
                     <ul className="navbar_user">
                         <li><a href="#"><i className="fa fa-search" aria-hidden="true"></i></a></li>
